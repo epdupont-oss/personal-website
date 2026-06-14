@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emile tries things.</title>
+  <style>
+    :root {
+      --bg: #000;
+      --fg: #fff;
+      --muted: #555;
+      --dim: #333;
+      --accent: #fff;
+      --gap: 1px;
+      --mono: "Courier New", Courier, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .site-grid {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      border-right: var(--gap) solid var(--dim);
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
+    nav .site-title {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      padding: 0.2rem 0;
+      transition: color 0.15s;
+    }
+    nav a:hover { color: var(--fg); }
+    nav a.active { color: var(--fg); }
+
+    nav .nav-tags {
+      margin-top: auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      border: var(--gap) solid var(--dim);
+      padding: 2px 6px;
+      cursor: default;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .tag:hover { color: var(--fg); border-color: var(--muted); }
+
+    /* ── Main content ── */
+    main {
+      display: flex;
+      flex-direction: column;
+    }
+
+    section {
+      border-bottom: var(--gap) solid var(--dim);
+      padding: 3rem 2.5rem;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Hero ── */
+    #about h1 {
+      font-family: var(--sans);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .byline {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 1.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .bio {
+      max-width: 520px;
+      color: #ccc;
+      margin-bottom: 2rem;
+      line-height: 1.75;
+    }
+
+    /* Feynman quote */
+    .quote-block {
+      border-left: var(--gap) solid var(--dim);
+      padding-left: 1rem;
+      margin-top: 2rem;
+      max-width: 520px;
+    }
+
+    .quote-text {
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.6;
+      min-height: 2.4em;
+      transition: opacity 0.4s;
+    }
+    .quote-text.fading { opacity: 0; }
+
+    .quote-attr {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: #333;
+      margin-top: 0.4rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Projects ── */
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+    }
+
+    .project-item {
+      border: var(--gap) solid var(--dim);
+      padding: 1rem 1.25rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 0.5rem;
+      transition: border-color 0.15s;
+    }
+    .project-item:hover { border-color: var(--muted); }
+
+    .project-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 0.25rem;
+    }
+
+    .project-desc {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .project-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* ── Races ── */
+    .race-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+    }
+
+    .race-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: var(--gap) solid var(--dim);
+      align-items: start;
+    }
+    .race-item:last-child { border-bottom: none; }
+
+    .race-date {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      padding-top: 0.1rem;
+    }
+
+    .race-name {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+
+    .race-feeling {
+      font-size: 12px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ── Blog ── */
+    .post-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+    }
+
+    .post-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: var(--gap) solid var(--dim);
+    }
+    .post-item:last-child { border-bottom: none; }
+
+    .post-date {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      padding-top: 0.15rem;
+    }
+
+    .post-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--fg);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .post-title:hover { color: var(--muted); }
+
+    /* ── Quantum widget ── */
+    #quantum {
+      background: #000;
+    }
+
+    .quantum-inner {
+      border: var(--gap) solid var(--dim);
+      padding: 1.5rem;
+      max-width: 560px;
+    }
+
+    .quantum-heading {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+
+    .quantum-form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--gap);
+    }
+
+    .quantum-input {
+      background: #000;
+      border: var(--gap) solid var(--dim);
+      color: var(--fg);
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 0.6rem 0.75rem;
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+    .quantum-input:focus { border-color: var(--muted); }
+    .quantum-input::placeholder { color: #333; }
+
+    .quantum-btn {
+      background: #000;
+      border: var(--gap) solid var(--dim);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .quantum-btn:hover { color: var(--fg); border-color: var(--muted); }
+    .quantum-btn:disabled { color: #333; border-color: #1a1a1a; cursor: default; }
+
+    .quantum-answer {
+      margin-top: 1rem;
+      font-size: 13px;
+      color: #ccc;
+      line-height: 1.6;
+      min-height: 1.6em;
+      font-style: italic;
+      transition: opacity 0.3s;
+    }
+    .quantum-answer.loading { color: var(--muted); font-style: normal; }
+    .quantum-answer.error { color: #555; }
+
+    /* ── Footer ── */
+    footer {
+      padding: 1.5rem 2.5rem;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: #333;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .site-grid {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: var(--gap) solid var(--dim);
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 1rem 1.25rem;
+        gap: 1rem;
+      }
+
+      nav .site-title { display: none; }
+      nav .nav-tags { margin-top: 0; }
+
+      section { padding: 2rem 1.25rem; }
+      footer { padding: 1rem 1.25rem; }
+
+      .quantum-form {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="site-grid">
+
+  <!-- ── Sidebar ── -->
+  <nav>
+    <span class="site-title">emile tries things.</span>
+    <a href="#about">about</a>
+    <a href="#projects">projects</a>
+    <a href="#sports">sports</a>
+    <a href="#blog">blog</a>
+    <a href="#quantum">quantum</a>
+
+    <div class="nav-tags">
+      <span class="tag">Triathlon</span>
+      <span class="tag">Ski</span>
+      <span class="tag">Mountains</span>
+      <span class="tag">Innovation</span>
+      <span class="tag">Fun</span>
+      <span class="tag">Reading</span>
+      <span class="tag">Python</span>
+    </div>
+  </nav>
+
+  <!-- ── Main ── -->
+  <main>
+
+    <!-- About / Hero -->
+    <section id="about">
+      <p class="section-label">00 / about</p>
+      <h1>Emile tries things.</h1>
+      <p class="byline">engineer · amateur runner · dad</p>
+      <p class="bio">
+        I manage projects, I am back at writing some code in my spare time and trying to automate what can be automated, and run or ski whenever I can. Based in Basel, working at Innosuisse in Bern.
+      </p>
+
+      <div class="quote-block" id="quoteBlock">
+        <p class="quote-text" id="quoteText">loading a feynman quote…</p>
+        <p class="quote-attr">— Richard P. Feynman</p>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <p class="section-label">01 / projects</p>
+      <div class="project-list">
+
+        <div class="project-item">
+          <div>
+            <p class="project-name">Automation scripts</p>
+            <p class="project-desc">Python tooling to automate the parts of work that should not require humans.</p>
+          </div>
+          <span class="project-tag">Python</span>
+        </div>
+
+        <div class="project-item">
+          <div>
+            <p class="project-name">This site</p>
+            <p class="project-desc">Single-file personal website. Netlify, no frameworks, a quantum widget.</p>
+          </div>
+          <span class="project-tag">HTML/JS</span>
+        </div>
+
+        <div class="project-item">
+          <div>
+            <p class="project-name">TBD</p>
+            <p class="project-desc">Something else I'm trying.</p>
+          </div>
+          <span class="project-tag">?</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Sports / Races -->
+    <section id="sports">
+      <p class="section-label">02 / sports &amp; races</p>
+      <div class="race-list">
+
+        <div class="race-item">
+          <span class="race-date">2025</span>
+          <div>
+            <p class="race-name">Basel Marathon</p>
+            <p class="race-feeling">"legs said no, head said yes — head won"</p>
+          </div>
+        </div>
+
+        <div class="race-item">
+          <span class="race-date">2025</span>
+          <div>
+            <p class="race-name">Triathlon Bern</p>
+            <p class="race-feeling">"the swim was cold. very cold. beautiful."</p>
+          </div>
+        </div>
+
+        <div class="race-item">
+          <span class="race-date">winter</span>
+          <div>
+            <p class="race-name">Ski season — Valais</p>
+            <p class="race-feeling">"this is why I live here"</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Blog -->
+    <section id="blog">
+      <p class="section-label">03 / blog</p>
+      <div class="post-list">
+
+        <div class="post-item">
+          <span class="post-date">2026-06</span>
+          <a href="#" class="post-title">Why I rewrote my website in a single HTML file</a>
+        </div>
+
+        <div class="post-item">
+          <span class="post-date">2026-05</span>
+          <a href="#" class="post-title">Automating the boring bits at Innosuisse</a>
+        </div>
+
+        <div class="post-item">
+          <span class="post-date">2026-04</span>
+          <a href="#" class="post-title">Running while reading: books and km in 2026</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Quantum widget -->
+    <section id="quantum">
+      <p class="section-label">04 / quantum</p>
+      <div class="quantum-inner">
+        <p class="quantum-heading">ASK ME ANYTHING ABOUT QUANTUM MECHANICS</p>
+        <div class="quantum-form">
+          <input
+            class="quantum-input"
+            id="quantumInput"
+            type="text"
+            placeholder="what is superposition?"
+            maxlength="200"
+          />
+          <button class="quantum-btn" id="quantumBtn">ask →</button>
+        </div>
+        <p class="quantum-answer" id="quantumAnswer"></p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      basel · bern · &copy; <span id="year"></span> emile
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // ── Year ──
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ── Active nav on scroll ──
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+        }
+      });
+    },
+    { threshold: 0.4 }
+  );
+  sections.forEach(s => observer.observe(s));
+
+  // ── Feynman quotes via Wikiquote API ──
+  const FEYNMAN_FALLBACKS = [
+    "The first principle is that you must not fool yourself — and you are the easiest person to fool.",
+    "I'd rather have questions that can't be answered than answers that can't be questioned.",
+    "Study hard what interests you the most in the most undisciplined, irreverent and original manner possible.",
+    "Physics is like sex: sure, it may give some practical results, but that's not why we do it.",
+    "If you think you understand quantum mechanics, you don't understand quantum mechanics.",
+    "Nature uses only the longest threads to weave her patterns, so that each small piece of her fabric reveals the organization of the entire tapestry.",
+    "The imagination of nature is far, far greater than the imagination of man.",
+  ];
+
+  let feynmanQuotes = [];
+  let quoteIndex = 0;
+  let quoteTimer = null;
+
+  async function fetchFeynmanQuotes() {
+    try {
+      const url = 'https://en.wikiquote.org/w/api.php?action=parse&page=Richard_Feynman&prop=wikitext&format=json&origin=*';
+      const res = await fetch(url);
+      const data = await res.json();
+      const wikitext = data.parse.wikitext['*'];
+
+      // Extract quoted lines: lines starting with * after == Quotes ==
+      const lines = wikitext.split('\n');
+      const quotes = [];
+      let inQuotes = false;
+      for (const line of lines) {
+        if (/^==\s*Quotes\s*==/.test(line)) { inQuotes = true; continue; }
+        if (/^==/.test(line) && inQuotes) break;
+        if (inQuotes && line.startsWith('* ')) {
+          const clean = line
+            .replace(/^\*+\s*/, '')
+            .replace(/\[\[([^\]|]+\|)?([^\]]+)\]\]/g, '$2')
+            .replace(/'{2,3}/g, '')
+            .replace(/<!--.*?-->/g, '')
+            .trim();
+          if (clean.length > 20 && clean.length < 300) quotes.push(clean);
+        }
+      }
+      return quotes.length >= 3 ? quotes : FEYNMAN_FALLBACKS;
+    } catch {
+      return FEYNMAN_FALLBACKS;
+    }
+  }
+
+  function showQuote(text) {
+    const el = document.getElementById('quoteText');
+    el.classList.add('fading');
+    setTimeout(() => {
+      el.textContent = text;
+      el.classList.remove('fading');
+    }, 400);
+  }
+
+  async function initQuotes() {
+    feynmanQuotes = await fetchFeynmanQuotes();
+    // shuffle
+    feynmanQuotes.sort(() => Math.random() - 0.5);
+    showQuote(feynmanQuotes[0]);
+    quoteTimer = setInterval(() => {
+      quoteIndex = (quoteIndex + 1) % feynmanQuotes.length;
+      showQuote(feynmanQuotes[quoteIndex]);
+    }, 30 * 60 * 1000); // 30 min
+  }
+
+  initQuotes();
+
+  // ── Quantum widget ──
+  const quantumInput = document.getElementById('quantumInput');
+  const quantumBtn = document.getElementById('quantumBtn');
+  const quantumAnswer = document.getElementById('quantumAnswer');
+
+  async function askQuantum(question) {
+    quantumBtn.disabled = true;
+    quantumAnswer.className = 'quantum-answer loading';
+    quantumAnswer.textContent = 'thinking…';
+
+    try {
+      const res = await fetch('/.netlify/functions/quantum', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question }),
+      });
+
+      if (!res.ok) throw new Error('function error');
+      const data = await res.json();
+      quantumAnswer.className = 'quantum-answer';
+      quantumAnswer.textContent = data.answer;
+    } catch {
+      quantumAnswer.className = 'quantum-answer error';
+      quantumAnswer.textContent = 'the universe is uncooperative right now.';
+    } finally {
+      quantumBtn.disabled = false;
+    }
+  }
+
+  quantumBtn.addEventListener('click', () => {
+    const q = quantumInput.value.trim();
+    if (q) askQuantum(q);
+  });
+
+  quantumInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const q = quantumInput.value.trim();
+      if (q) askQuantum(q);
+    }
+  });
+</script>
+
+</body>
+</html>
