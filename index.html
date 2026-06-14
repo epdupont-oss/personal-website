@@ -377,8 +377,6 @@
     <a href="#projects">projects</a>
     <a href="#sports">sports</a>
     <a href="#blog">blog</a>
-    <a href="#quantum">quantum</a>
-
     <div class="nav-tags">
       <span class="tag">Triathlon</span>
       <span class="tag">Ski</span>
@@ -399,106 +397,15 @@
       <h1>Emile tries things.</h1>
       <p class="byline">engineer · amateur runner · dad</p>
       <p class="bio">
-        I manage projects, I am back at writing some code in my spare time and trying to automate what can be automated, and run or ski whenever I can. Based in Basel, working at Innosuisse in Bern.
+        I manage projects, I am back at writing some code in my spare time and trying to automate what can be automated, and run or ski whenever I can. Based in Basel, working at <a href="https://www.innosuisse.admin.ch" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">Innosuisse</a> in Bern. Find me on <a href="https://www.linkedin.com/in/emiledupont/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">LinkedIn</a>.
       </p>
 
       <div class="quote-block" id="quoteBlock">
         <p class="quote-text" id="quoteText">loading a feynman quote…</p>
         <p class="quote-attr">— Richard P. Feynman</p>
       </div>
-    </section>
 
-    <!-- Projects -->
-    <section id="projects">
-      <p class="section-label">01 / projects</p>
-      <div class="project-list">
-
-        <div class="project-item">
-          <div>
-            <p class="project-name">Automation scripts</p>
-            <p class="project-desc">Python tooling to automate the parts of work that should not require humans.</p>
-          </div>
-          <span class="project-tag">Python</span>
-        </div>
-
-        <div class="project-item">
-          <div>
-            <p class="project-name">This site</p>
-            <p class="project-desc">Single-file personal website. Netlify, no frameworks, a quantum widget.</p>
-          </div>
-          <span class="project-tag">HTML/JS</span>
-        </div>
-
-        <div class="project-item">
-          <div>
-            <p class="project-name">TBD</p>
-            <p class="project-desc">Something else I'm trying.</p>
-          </div>
-          <span class="project-tag">?</span>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Sports / Races -->
-    <section id="sports">
-      <p class="section-label">02 / sports &amp; races</p>
-      <div class="race-list">
-
-        <div class="race-item">
-          <span class="race-date">2025</span>
-          <div>
-            <p class="race-name">Basel Marathon</p>
-            <p class="race-feeling">"legs said no, head said yes — head won"</p>
-          </div>
-        </div>
-
-        <div class="race-item">
-          <span class="race-date">2025</span>
-          <div>
-            <p class="race-name">Triathlon Bern</p>
-            <p class="race-feeling">"the swim was cold. very cold. beautiful."</p>
-          </div>
-        </div>
-
-        <div class="race-item">
-          <span class="race-date">winter</span>
-          <div>
-            <p class="race-name">Ski season — Valais</p>
-            <p class="race-feeling">"this is why I live here"</p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Blog -->
-    <section id="blog">
-      <p class="section-label">03 / blog</p>
-      <div class="post-list">
-
-        <div class="post-item">
-          <span class="post-date">2026-06</span>
-          <a href="#" class="post-title">Why I rewrote my website in a single HTML file</a>
-        </div>
-
-        <div class="post-item">
-          <span class="post-date">2026-05</span>
-          <a href="#" class="post-title">Automating the boring bits at Innosuisse</a>
-        </div>
-
-        <div class="post-item">
-          <span class="post-date">2026-04</span>
-          <a href="#" class="post-title">Running while reading: books and km in 2026</a>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Quantum widget -->
-    <section id="quantum">
-      <p class="section-label">04 / quantum</p>
-      <div class="quantum-inner">
+      <div class="quantum-inner" style="margin-top:2rem; max-width:520px;">
         <p class="quantum-heading">ASK ME ANYTHING ABOUT QUANTUM MECHANICS</p>
         <div class="quantum-form">
           <input
@@ -511,6 +418,75 @@
           <button class="quantum-btn" id="quantumBtn">ask →</button>
         </div>
         <p class="quantum-answer" id="quantumAnswer"></p>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <p class="section-label">01 / projects</p>
+      <div class="project-list">
+
+        <div class="project-item">
+          <div>
+            <p class="project-name"><a href="https://github.com/epdupont-oss/personal-website" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">This website</a></p>
+            <p class="project-desc">Single HTML/CSS/JS file, no frameworks, hosted on Netlify. Feynman quotes pulled live from the Wikiquote API and rotated every 30 minutes. Quantum mechanics widget powered by Mistral AI via a Netlify serverless function — the API key never touches the client.</p>
+          </div>
+          <span class="project-tag">HTML/JS</span>
+        </div>
+
+        <div class="project-item">
+          <div>
+            <p class="project-name">Whiteboard → HTML bot</p>
+            <p class="project-desc">A Telegram bot that takes a photo of a workshop whiteboard, parses its structure with vision AI, and emails the owner a clean, formatted HTML summary. Useful when you have more post-its than time. GitHub link coming soon.</p>
+          </div>
+          <span class="project-tag">Python</span>
+        </div>
+
+        <div class="project-item">
+          <div>
+            <p class="project-name">Aramis funding analyser</p>
+            <p class="project-desc">Querying and analysing the Swiss federal Aramis database of funded R&D projects using the Mistral API — finding patterns, clusters, and gaps in Swiss innovation funding. Work in progress, GitHub soon.</p>
+          </div>
+          <span class="project-tag">Python · Mistral</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Sports / Races -->
+    <section id="sports">
+      <p class="section-label">02 / sports &amp; races · <a href="https://www.strava.com/athletes/441831" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">strava</a></p>
+      <div class="race-list">
+
+        <div class="race-item">
+          <span class="race-date">2025</span>
+          <div>
+            <p class="race-name"><a href="https://www.montreuxlesrochersdenaye.ch/en/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">Montreux – Rochers de Naye</a></p>
+            <p class="race-feeling">"running up a mountain with Albert because we had too many burgers the night before"</p>
+          </div>
+        </div>
+
+        <div class="race-item">
+          <span class="race-date">2025</span>
+          <div>
+            <p class="race-name"><a href="https://skiclassics.com/events/challengers/marcia-gran-paradiso/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">Marcia Gran Paradiso</a></p>
+            <p class="race-feeling">"perfectly prepared — if you count roller skis on the streets of Riehen as altitude training"</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Blog -->
+    <section id="blog">
+      <p class="section-label">03 / blog</p>
+      <div class="post-list">
+
+        <div class="post-item">
+          <span class="post-date">—</span>
+          <span class="post-title" style="cursor:default;">work in progress</span>
+        </div>
+
       </div>
     </section>
 
