@@ -595,7 +595,7 @@
     quantumAnswer.textContent = 'thinking…';
 
     try {
-      const res = await fetch('/.netlify/functions/quantum', {
+      const res = await fetch('/functions/quantum', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question }),
